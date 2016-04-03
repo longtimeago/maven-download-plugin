@@ -14,6 +14,7 @@
  */
 package com.googlecode.download.maven.plugin.internal;
 
+import com.googlecode.download.maven.plugin.internal.cache.DownloadCache;
 import org.apache.maven.artifact.manager.WagonManager;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
@@ -204,13 +205,13 @@ public class WGet extends AbstractMojo {
           .getBasedir(), ".cache/download-maven-plugin");
     }
     getLog().debug("Cache is: " + this.cacheDirectory.getAbsolutePath());
-    DownloadCache cache = new DownloadCache(this.cacheDirectory);
-    this.outputDirectory.mkdirs();
-    File outputFile = new File(this.outputDirectory, this.outputFileName);
-
     // DO
     try
     {
+      DownloadCache cache = new DownloadCache(this.cacheDirectory);
+      this.outputDirectory.mkdirs();
+      File outputFile = new File(this.outputDirectory, this.outputFileName);
+
       boolean haveFile = outputFile.exists();
       if (haveFile)
       {
