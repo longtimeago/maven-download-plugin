@@ -9,18 +9,18 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 /**
- * Tests for {@code FileIndex}.
+ * Tests for {@code FileBackedIndex}.
  * @author Paul Polishchuk
  * @since 1.3.1
  */
-public final class FileIndexTest {
+public final class FileBackedIndexTest {
 
     @Rule
     public final TemporaryFolder tmp = new TemporaryFolder();
 
     @Test
     public void putCheckAndGet() throws IOException {
-        final Index index = new FileIndex(this.tmp.newFolder("cacheDir"));
+        final Index index = new FileBackedIndex(this.tmp.newFolder("cacheDir"));
         final String url = "/first/url";
         final String path = "some path";
         index.put(url, path);
@@ -30,7 +30,7 @@ public final class FileIndexTest {
 
     @Test
     public void checkForNotExistent() throws IOException {
-        final Index index = new FileIndex(this.tmp.newFolder("cacheDir"));
+        final Index index = new FileBackedIndex(this.tmp.newFolder("cacheDir"));
         MatcherAssert.assertThat(
             index.contains("/not/exist"), Matchers.is(false)
         );
@@ -38,16 +38,16 @@ public final class FileIndexTest {
 
     @Test(expected = IllegalStateException.class)
     public void throwsIfGetNotExistent() throws IOException {
-        new FileIndex(this.tmp.newFolder("cacheDir")).get("/not/exist");
+        new FileBackedIndex(this.tmp.newFolder("cacheDir")).get("/not/exist");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void throwsIfBaseNotExist() {
-        new FileIndex(new File("notExist"));
+        new FileBackedIndex(new File("notExist"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void throwsIfBaseNotADir() throws IOException {
-        new FileIndex(this.tmp.newFile("notADir"));
+        new FileBackedIndex(this.tmp.newFile("notADir"));
     }
 }

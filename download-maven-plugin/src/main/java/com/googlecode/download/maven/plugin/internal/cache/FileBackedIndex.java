@@ -18,7 +18,7 @@ import java.util.Map;
  * @author Paul Polishchuk
  * @since 1.3.1
  */
-final class FileIndex implements Index {
+final class FileBackedIndex implements Index {
 
     private final Map<String, String> index = new HashMap<>();
     private final File storage;
@@ -29,7 +29,7 @@ final class FileIndex implements Index {
      * or file can't be created in it.
      * @param baseDir directory where the index file should be stored.
      */
-    FileIndex(final File baseDir) {
+    FileBackedIndex(final File baseDir) {
         if (!baseDir.isDirectory()) {
             throw new IllegalArgumentException(
                 String.format(
@@ -42,7 +42,7 @@ final class FileIndex implements Index {
         if (store.exists()) {
             this.loadFrom(store);
         } else {
-            FileIndex.create(store);
+            FileBackedIndex.create(store);
         }
         this.storage = store;
     }

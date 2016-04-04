@@ -34,7 +34,7 @@ public class DownloadCache {
 
 	public DownloadCache(File cacheDirectory) {
         DownloadCache.createIfNeeded(cacheDirectory);
-        this.index = new FileIndex(cacheDirectory);
+        this.index = new FileBackedIndex(cacheDirectory);
         this.basedir = cacheDirectory;
     }
 
