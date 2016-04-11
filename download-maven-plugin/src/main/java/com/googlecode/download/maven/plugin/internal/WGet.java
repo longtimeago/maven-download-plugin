@@ -14,6 +14,7 @@
  */
 package com.googlecode.download.maven.plugin.internal;
 
+import com.googlecode.download.maven.plugin.internal.cache.DownloadCache;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Files;

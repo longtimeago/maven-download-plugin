@@ -36,7 +36,7 @@ public class SignatureUtils {
         }
     }
 
-    static String computeSignatureAsString(File file,
+    public static String computeSignatureAsString(File file,
         MessageDigest digest) throws IOException {
         InputStream fis = new FileInputStream(file);
         byte[] buffer = new byte[1024];
@@ -52,15 +52,15 @@ public class SignatureUtils {
         return new String(Hex.encodeHex(actualDigest));
     }
 
-    static String getMD5(File file) throws IOException, NoSuchAlgorithmException {
+    public static String getMD5(File file) throws IOException, NoSuchAlgorithmException {
         return computeSignatureAsString(file, MessageDigest.getInstance("MD5"));
     }
 
-    static String getSHA1(File file) throws IOException, NoSuchAlgorithmException {
+    public static String getSHA1(File file) throws IOException, NoSuchAlgorithmException {
         return computeSignatureAsString(file, MessageDigest.getInstance("SHA1"));
     }
 
-    static String getSHA512(File file) throws IOException, NoSuchAlgorithmException {
+    public static String getSHA512(File file) throws IOException, NoSuchAlgorithmException {
         return computeSignatureAsString(file, MessageDigest.getInstance("SHA-512"));
     }
 }
