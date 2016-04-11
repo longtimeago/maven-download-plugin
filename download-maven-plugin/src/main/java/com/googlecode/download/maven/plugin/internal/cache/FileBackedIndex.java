@@ -18,7 +18,7 @@ import java.util.Map;
  * @author Paul Polishchuk
  * @since 1.3.1
  */
-final class FileBackedIndex implements Index {
+final class FileBackedIndex implements FileIndex {
 
     private final Map<String, String> index = new HashMap<>();
     private final File storage;
@@ -65,7 +65,7 @@ final class FileBackedIndex implements Index {
             return this.index.get(url);
         }
         throw new IllegalStateException(
-            "Cache miss. Check for existence with Index#contains before"
+            "Cache miss. Check for existence with FileIndex#contains before"
         );
     }
 

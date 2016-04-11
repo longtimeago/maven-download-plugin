@@ -1,11 +1,14 @@
 package com.googlecode.download.maven.plugin.internal.cache;
 
 /**
- * Cache index.
+ * Convenient map to search for the path where file is locally stored
+ * by url of the resource the file was downloaded from.
+ * Implementations should not read/write file bodies using stored paths.
+ *
  * @author Paul Polishchuk
  * @since 1.3.1
  */
-interface Index {
+interface FileIndex {
 
     /**
      * Adds given path to the index using url parameter as a key.

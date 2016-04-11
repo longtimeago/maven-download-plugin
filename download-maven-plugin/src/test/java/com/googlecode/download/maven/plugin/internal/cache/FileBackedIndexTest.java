@@ -20,7 +20,7 @@ public final class FileBackedIndexTest {
 
     @Test
     public void putCheckAndGet() throws IOException {
-        final Index index = new FileBackedIndex(this.tmp.newFolder("cacheDir"));
+        final FileIndex index = new FileBackedIndex(this.tmp.newFolder("cacheDir"));
         final String url = "/first/url";
         final String path = "some path";
         index.put(url, path);
@@ -30,7 +30,7 @@ public final class FileBackedIndexTest {
 
     @Test
     public void checkForNotExistent() throws IOException {
-        final Index index = new FileBackedIndex(this.tmp.newFolder("cacheDir"));
+        final FileIndex index = new FileBackedIndex(this.tmp.newFolder("cacheDir"));
         MatcherAssert.assertThat(
             index.contains("/not/exist"), Matchers.is(false)
         );

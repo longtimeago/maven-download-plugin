@@ -30,7 +30,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 public class DownloadCache {
 
 	private final File basedir;
-    private final Index index;
+    private final FileIndex index;
 
 	public DownloadCache(File cacheDirectory) {
         DownloadCache.createIfNeeded(cacheDirectory);
