@@ -17,6 +17,7 @@ package com.googlecode.download.maven.plugin.internal.cache;
 
 import com.googlecode.download.maven.plugin.internal.SignatureUtils;
 import java.io.File;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
@@ -38,7 +39,7 @@ public class DownloadCache {
         this.basedir = cacheDirectory;
     }
 
-	private String getEntry(String url, String md5, String sha1, String sha512) throws Exception {
+	private String getEntry(URL url, String md5, String sha1, String sha512) throws Exception {
 		if (!this.index.contains(url)) {
 			return null;
 		}
@@ -68,7 +69,7 @@ public class DownloadCache {
 	 * @param sha1 Sha1 signature to verify file. Can be null =&gt; No check
 	 * @return A File when cache is found, null if no available cache
 	 */
-    public File getArtifact(String url, String md5, String sha1, String sha512) throws Exception {
+    public File getArtifact(URL url, String md5, String sha1, String sha512) throws Exception {
 		String res = getEntry(url, md5, sha1, sha512);
 		if (res != null) {
 			return new File(this.basedir, res);
@@ -76,7 +77,7 @@ public class DownloadCache {
 		return null;
 	}
 
-    public void install(String url, File outputFile, String md5, String sha1, String sha512) throws Exception {
+    public void install(URL url, File outputFile, String md5, String sha1, String sha512) throws Exception {
 		if (md5 == null) {
 			md5 = SignatureUtils.computeSignatureAsString(outputFile, MessageDigest.getInstance("MD5"));
 		}
@@ -90,7 +91,7 @@ public class DownloadCache {
 		if (entry != null) {
 			return; // entry already here
 		}
-		String fileName = outputFile.getName() + '_' + DigestUtils.md5Hex(url);
+		String fileName = outputFile.getName() + '_' + DigestUtils.md5Hex(url.toString());
 		Files.copy(outputFile.toPath(), new File(this.basedir, fileName).toPath(), StandardCopyOption.REPLACE_EXISTING);
 		// update index
 		this.index.put(url, fileName);

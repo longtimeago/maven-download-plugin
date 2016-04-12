@@ -1,5 +1,7 @@
 package com.googlecode.download.maven.plugin.internal.cache;
 
+import java.net.URL;
+
 /**
  * Convenient map to search for the path where file is locally stored
  * by url of the resource the file was downloaded from.
@@ -15,7 +17,7 @@ interface FileIndex {
      * @param url index key
      * @param path index value
      */
-    void put(String url, String path);
+    void put(URL url, String path);
 
     /**
      * Check if a path associated with the url key in the index.
@@ -23,7 +25,7 @@ interface FileIndex {
      * @param url index key
      * @return true if some path associated with given key
      */
-    boolean contains(String url);
+    boolean contains(URL url);
 
     /**
      * Gets stored value by the key.
@@ -31,5 +33,5 @@ interface FileIndex {
      * @return path by given url key; never NULL
      * @throws IllegalStateException in case key is not found
      */
-    String get(String url);
+    String get(URL url);
 }

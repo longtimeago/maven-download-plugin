@@ -50,7 +50,7 @@ public class WGet extends AbstractMojo {
      * Represent the URL to fetch information from.
      */
     @Parameter(property = "download.url", required = true)
-    private String url;
+    private URL url;
 
     /**
      * Flag to overwrite the file by redownloading it
@@ -184,7 +184,7 @@ public class WGet extends AbstractMojo {
         // PREPARE
         if (this.outputFileName == null) {
             try {
-                this.outputFileName = new File(new URL(this.url).getFile()).getName();
+                this.outputFileName = new File(this.url.getFile()).getName();
             } catch (Exception ex) {
                 throw new MojoExecutionException("Invalid URL", ex);
             }
@@ -306,9 +306,10 @@ public class WGet extends AbstractMojo {
 
 
     private void doGet(File outputFile) throws Exception {
-        String[] segments = this.url.split("/");
+        String urlStr = this.url.toString();
+        String[] segments = urlStr.split("/");
         String file = segments[segments.length - 1];
-        String repoUrl = this.url.substring(0, this.url.length() - file.length() - 1);
+        String repoUrl = urlStr.substring(0, urlStr.length() - file.length() - 1);
         Repository repository = new Repository(repoUrl, repoUrl);
 
         Wagon wagon = this.wagonManager.getWagon(repository.getProtocol());

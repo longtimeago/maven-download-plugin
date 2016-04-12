@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.RandomAccessFile;
+import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ import java.util.Map;
  */
 final class FileBackedIndex implements FileIndex {
 
-    private final Map<String, String> index = new HashMap<>();
+    private final Map<URL, String> index = new HashMap<>();
     private final File storage;
 
     /**
@@ -48,19 +49,19 @@ final class FileBackedIndex implements FileIndex {
     }
 
     @Override
-    public void put(final String url, final String path) {
+    public void put(final URL url, final String path) {
         this.index.put(url, path);
         this.save();
     }
 
     @Override
-    public boolean contains(final String url) {
+    public boolean contains(final URL url) {
         this.loadFrom(this.storage);
         return this.index.containsKey(url);
     }
 
     @Override
-    public String get(final String url) {
+    public String get(final URL url) {
         if (this.contains(url)) {
             return this.index.get(url);
         }
@@ -102,7 +103,7 @@ final class FileBackedIndex implements FileIndex {
                 final ObjectInputStream deserialize = new ObjectInputStream(new FileInputStream(store))
             ) {
                 this.index.clear();
-                this.index.putAll((Map<String, String>) deserialize.readObject());
+                this.index.putAll((Map<URL, String>) deserialize.readObject());
             } catch (final IOException | ClassNotFoundException ex) {
                 throw new IllegalStateException(ex);
             }

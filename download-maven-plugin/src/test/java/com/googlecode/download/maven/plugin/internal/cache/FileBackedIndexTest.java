@@ -2,6 +2,7 @@ package com.googlecode.download.maven.plugin.internal.cache;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
@@ -21,7 +22,7 @@ public final class FileBackedIndexTest {
     @Test
     public void putCheckAndGet() throws IOException {
         final FileIndex index = new FileBackedIndex(this.tmp.newFolder("cacheDir"));
-        final String url = "/first/url";
+        final URL url = new URL("http://localhost/first/url");
         final String path = "some path";
         index.put(url, path);
         MatcherAssert.assertThat(index.contains(url), Matchers.is(true));
@@ -32,13 +33,13 @@ public final class FileBackedIndexTest {
     public void checkForNotExistent() throws IOException {
         final FileIndex index = new FileBackedIndex(this.tmp.newFolder("cacheDir"));
         MatcherAssert.assertThat(
-            index.contains("/not/exist"), Matchers.is(false)
+            index.contains(new URL("http://localhost/not/exist")), Matchers.is(false)
         );
     }
 
     @Test(expected = IllegalStateException.class)
     public void throwsIfGetNotExistent() throws IOException {
-        new FileBackedIndex(this.tmp.newFolder("cacheDir")).get("/not/exist");
+        new FileBackedIndex(this.tmp.newFolder("cacheDir")).get(new URL("http://localhost/not/exist"));
     }
 
     @Test(expected = IllegalArgumentException.class)
